@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import ar.reloadersystem.storepersistenciadatos.R
 import ar.reloadersystem.storepersistenciadatos.model.Note
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDataSource
+import ar.reloadersystem.storepersistenciadatos.storage.NoteDatabase
 import kotlinx.android.synthetic.main.activity_add_note.*
 
 class AddNoteActivity : AppCompatActivity() {
 
     private var name: String? = null
     private var desc: String? = null
+
     //private var notedataSource:NoteDataSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +55,12 @@ class AddNoteActivity : AppCompatActivity() {
     }
 
     private fun addNote() {
+
         val note = Note(null, name, desc)
+        val noteDatabase = NoteDatabase(this)
+        val dataSource = NoteDataSource(noteDatabase)
+        dataSource.addNote(note)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
