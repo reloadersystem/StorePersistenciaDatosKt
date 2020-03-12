@@ -21,8 +21,6 @@ class NoteDatabase(context: Context) :
 
         Log.v("CONSOLE", "sql $sql")
         db?.execSQL(sql)
-
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

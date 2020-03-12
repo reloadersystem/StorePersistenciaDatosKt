@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun ui() {
 
-
         floatingActionButton.setOnClickListener {
             goToAddNote()
         }
