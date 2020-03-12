@@ -13,8 +13,6 @@ class AddNoteActivity : AppCompatActivity() {
     private var name: String? = null
     private var desc: String? = null
 
-    //private var notedataSource:NoteDataSource
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)

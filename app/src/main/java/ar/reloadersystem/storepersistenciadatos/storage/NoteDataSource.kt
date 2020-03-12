@@ -6,7 +6,6 @@ import ar.reloadersystem.storepersistenciadatos.model.Note
 
 class NoteDataSource(private val noteDatabase: NoteDatabase) : DataSource {
 
-
     override fun notes(): List<Note> {
 
         val sqliteDatabase = noteDatabase.readableDatabase // modo lectura
