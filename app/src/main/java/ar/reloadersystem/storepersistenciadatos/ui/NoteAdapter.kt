@@ -30,7 +30,6 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
         holder.bind(notes[position])
-
         holder.view.setOnClickListener {
             itemCallback(notes[position])
         }

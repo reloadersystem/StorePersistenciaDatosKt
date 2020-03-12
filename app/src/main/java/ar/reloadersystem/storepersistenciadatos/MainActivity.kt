@@ -9,20 +9,19 @@ import ar.reloadersystem.storepersistenciadatos.model.Note
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDataSource
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDatabase
 import ar.reloadersystem.storepersistenciadatos.ui.AddNoteActivity
+import ar.reloadersystem.storepersistenciadatos.ui.EditNoteActivity
 import ar.reloadersystem.storepersistenciadatos.ui.NoteAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var adapter: NoteAdapter
-    private lateinit var listNotes: List<Note>
 
+    private lateinit var listNotes: List<Note>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         ui()
-
     }
 
     private fun ui() {
@@ -35,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = NoteAdapter(listNotes) { itNote ->
 
             showMessage(itNote.name.toString())
+
+            goToEditNote(itNote)
         }
 
         floatingActionButton.setOnClickListener {
@@ -42,10 +43,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun goToEditNote(note: Note) {
+        val bundle = Bundle()
+        bundle.putSerializable("NOTE", note)
+
+        val intent = Intent(this, EditNoteActivity::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
 
     private fun showMessage(message: String) {
         Toast.makeText(this, "item $message", Toast.LENGTH_SHORT).show()
-
     }
 
     private fun goToAddNote() {
@@ -55,7 +64,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        // adapter.update(listNotes)
     }
 }
