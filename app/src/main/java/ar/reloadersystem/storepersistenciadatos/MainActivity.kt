@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ar.reloadersystem.storepersistenciadatos.model.Note
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDataSource
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDatabase
@@ -64,5 +65,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+
+
     }
 }

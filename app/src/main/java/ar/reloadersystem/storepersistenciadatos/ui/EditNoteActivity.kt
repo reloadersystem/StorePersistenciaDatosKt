@@ -1,19 +1,19 @@
 package ar.reloadersystem.storepersistenciadatos.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import ar.reloadersystem.storepersistenciadatos.R
 import ar.reloadersystem.storepersistenciadatos.model.Note
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDataSource
 import ar.reloadersystem.storepersistenciadatos.storage.NoteDatabase
 import kotlinx.android.synthetic.main.activity_edit_note.*
 
-class EditNoteActivity : AppCompatActivity() {
+class EditNoteActivity : AppCompatActivity(), NoteDialogFragment.DialogListener {
 
-    private var note: Note?=null
+    private var note: Note? = null
 
-    private var name:String?=null
-    private var desc:String?=null
+    private var name: String? = null
+    private var desc: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +30,14 @@ class EditNoteActivity : AppCompatActivity() {
     private fun ui() {
 
         btnEditNote.setOnClickListener {
-            if(validaForm()){
+            if (validaForm()) {
                 editNote()
             }
+        }
+
+        btnDeleteNote.setOnClickListener {
+            if (validaForm())
+                deleteNote()
         }
     }
 
@@ -43,19 +48,18 @@ class EditNoteActivity : AppCompatActivity() {
         val dataSource = NoteDataSource(noteDatabase)
         dataSource.updateNote(nNote)
         finish()
-
     }
 
     private fun validaForm(): Boolean {
 
-        name= eteName.text.toString()
-        desc= eteDesc.text.toString()
+        name = eteName.text.toString()
+        desc = eteDesc.text.toString()
 
-        if(name.isNullOrEmpty()){
+        if (name.isNullOrEmpty()) {
             return false
         }
 
-        if(desc.isNullOrEmpty()){
+        if (desc.isNullOrEmpty()) {
             return false
         }
         return true
@@ -63,12 +67,12 @@ class EditNoteActivity : AppCompatActivity() {
 
     private fun deleteNote() {
 
-        val noteDialogFragment= NoteDialogFragment()
-        val bundle= Bundle()
+        val noteDialogFragment = NoteDialogFragment()
+        val bundle = Bundle()
         bundle.putString("TITLE", "Deseas eliminar esta nota")
         bundle.putInt("TYPE", 100)
 
-        noteDialogFragment.arguments= bundle
+        noteDialogFragment.arguments = bundle
         noteDialogFragment.show(supportFragmentManager, "dialog")
         //updateNote
     }
@@ -82,8 +86,26 @@ class EditNoteActivity : AppCompatActivity() {
 
     private fun verifyExtras() {
         intent?.extras?.let {
-            note= it.getSerializable("NOTE") as Note
+            note = it.getSerializable("NOTE") as Note
         }
+    }
+
+    override fun onPositiveListener(any: Any?, type: Int) {
+        val noteId = note?.id
+        val nNote = Note(noteId, name, desc)
+        val noteDatabase = NoteDatabase(this)
+        val dataSource = NoteDataSource(noteDatabase)
+        dataSource.deleteNote(nNote)
+        finish()
+    }
+
+    override fun onNegativeListener(any: Any?, type: Int) {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return super.onSupportNavigateUp()
+        onBackPressed()
     }
 
 
